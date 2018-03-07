@@ -1,0 +1,5 @@
+name: BlockGlitchFix
+version: 1.5-BlockGlitchFix-SNAPSHOT-8
+main: me.geekles.blockglitchfix.BlockGlitchFix
+description: A lightweight block fix to prevent invisible glitched out blocks.
+author: geekles

@@ -1,0 +1,29 @@
+# ==============================| Block Glitch Fix |==============================
+# A fix developed by geekles
+# Show me your appreciation by buying me a coffee! https://www.paypal.me/geekles
+# ================================================================================
+
+#This sets for the cooldown necessary between block breaks for this plugin to begin updating nearby blocks for the player
+#Smaller Number = Greater Performance
+#Unit: Milliseconds
+BlockBreakSensitivityCooldown: 50
+
+
+#This cooldown is necessary to let the plugin's mechanics to know if the player is still actively using a tool with a high efficiency enchant. 
+#If they haven't been actively breaking seperate blocks under the specified BlockBreakSensitivityCooldown after this specified cooldown time
+#stop updating blocks near that player. (Important for maximum performance)
+#Smaller Number = Greater Performance
+#Unit: Milliseconds
+BlockUpdatesRemovalCooldown: 2000
+
+
+#Intervals in which blocks near the player are updated
+#Larger Number = Greater Performance
+#Unit: Ticks (20 = 1 second)
+BlockUpdateInterval: 5
+
+
+#Block Update Radius (from player)
+#Smaller Number = Greater Performance
+#Unit: Blocks
+Radius: 4
