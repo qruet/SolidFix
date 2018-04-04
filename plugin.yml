@@ -1,5 +1,5 @@
 name: BlockGlitchFix
-version: 1.5-BlockGlitchFix-SNAPSHOT-8
+version: 1.6.1-BlockGlitchFix-SNAPSHOT-11
 main: me.geekles.blockglitchfix.BlockGlitchFix
-description: A lightweight block fix to prevent invisible glitched out blocks.
+description: A lightweight simple block fix to prevent players from being stuck in glitched blocks.
 author: geekles

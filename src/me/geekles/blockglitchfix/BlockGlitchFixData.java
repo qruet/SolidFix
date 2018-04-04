@@ -3,7 +3,6 @@ package me.geekles.blockglitchfix;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -20,6 +19,6 @@ public class BlockGlitchFixData {
 
 	public Map<UUID, Long> lastBreakTimeSlow = new HashMap<UUID, Long>();
 	public Map<UUID, Long> lastBreakTime = new HashMap<UUID, Long>();
-	public Set<UUID> blockCheck = new HashSet<UUID>();
+	public HashSet<UUID> blockCheck = new HashSet<UUID>();
 
 }
