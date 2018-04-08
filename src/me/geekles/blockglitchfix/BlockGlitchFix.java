@@ -36,7 +36,7 @@ public class BlockGlitchFix extends JavaPlugin {
 		getLogger().info("Registering Event(s)...");
 		Bukkit.getPluginManager().registerEvents(new BlockGlitchFixListeners(this), this);
 		getLogger().info("BlockGlitchFix has been initialized successfully! \\(^w^)/");
-		getLogger().info("Is my perfomance satisfactory? If you enjoy having me around, leave a review on my spigot page! ^w^");
+		getLogger().info("Is my performance satisfactory? If you enjoy having me around, leave a review on my spigot page! ^w^");
 	}
 
 	public void onDisable() {
