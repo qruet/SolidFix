@@ -1,8 +1,6 @@
 package me.geekles.blockglitchfix;
 
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -37,17 +35,19 @@ public class BlockGlitchFix extends JavaPlugin {
 		blockUpdater(); // triggers the blockUpdater loop
 		getLogger().info("Registering Event(s)...");
 		Bukkit.getPluginManager().registerEvents(new BlockGlitchFixListeners(this), this);
-		getLogger().info("Alright I'm fully awake now!");
+		getLogger().info("BlockGlitchFix has been initialized successfully! \\(^w^)/");
+		getLogger().info("Is my perfomance satisfactory? If you enjoy having me around, leave a review on my spigot page! ^w^");
 	}
 
 	public void onDisable() {
-		getLogger().info("Going to sleep... Bye!");
+		getLogger().info("BlockGlitchFix has been successfully disabled!");
 	}
 
 	private void initializeValues() {
 
-		this.data = new BlockGlitchFixData();
-		new BlockGlitchFixAPI(this);
+		this.data = new BlockGlitchFixData(); // store the instance of BlockGlitchFixData in order to retrieve data from the
+												// class later on
+		new BlockGlitchFixAPI(this); // initialize the API with the main class instance
 
 		try {
 			data.COOLDOWN_CHECKER = this.getConfig().getLong("BlockBreakSensitivityCooldown");
@@ -65,40 +65,20 @@ public class BlockGlitchFix extends JavaPlugin {
 		}
 	}
 
-	// An empty set used to temporarily store blockCheck as a clone for reading it
-	// safely in an async thread
-	private Set<UUID> blockCheckCopy = new HashSet<UUID>();
-
-	@SuppressWarnings("unchecked")
 	protected void blockUpdater() {
 		new BukkitRunnable() {
 			public void run() {
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						blockCheckCopy = (HashSet<UUID>) data.blockCheck.clone(); // clone the blockCheck HashSet for reading purposes
-					}
-				}.runTask(b);
-				for (UUID id : blockCheckCopy) {
-					BlockUpdateEvent event = new BlockUpdateEvent(Bukkit.getPlayer(id), BlockUpdateReason.FAST_BREAKING /* Simply the reason for the listener call. In this case
-																														 * this listener is being called because someone is breaking
-																														 * blocks fast, hence the name FAST_BREAKING */);
+				for (UUID id : data.blockCheck) {
+					BlockUpdateEvent event = new BlockUpdateEvent(Bukkit.getPlayer(id), BlockUpdateReason.FAST_BREAKING);
 					/* Creates an instance of a custom listener class and is ready to call. */
-
-					new BukkitRunnable() {
-						@Override
-						public void run() {
-							Bukkit.getPluginManager().callEvent(event);
-							Player player = Bukkit.getPlayer(id);
-							if (!event.isCancelled() && player != null) { // makes sure the called event hasn't been cancelled
-								updateBlocks(Bukkit.getPlayer(id), data.RADIUS); // updates blocks
-							}
-						}
-
-					}.runTask(b);
+					Bukkit.getPluginManager().callEvent(event);
+					Player player = Bukkit.getPlayer(id);
+					if (!event.isCancelled() && player != null) { // makes sure the called event hasn't been cancelled
+						updateBlocks(Bukkit.getPlayer(id), data.RADIUS); // updates blocks
+					}
 				}
 			}
-		}.runTaskTimerAsynchronously(this, 1L, data.UPDATE_INTERVAL /* Value can be found in config */);
+		}.runTaskTimer(this, 1L, data.UPDATE_INTERVAL /* Value can be found in config */);
 	}
 
 	/** Updates the players with blocks that surround them using packets.

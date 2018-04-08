@@ -5,22 +5,17 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-/**
- * This event is called when nearby blocks for a player is updated to prevent
+/** This event is called when nearby blocks for a player is updated to prevent
  * potential collision inteferences between the client and server.
  * 
- * @author Geekles
- *
- */
+ * @author Geekles */
 
 public class BlockUpdateEvent extends Event implements Cancellable {
 
 	public enum BlockUpdateReason {
-		/**
-		 * SAFETY_UPDATE - An occassional update that occurs when a player is teleported
-		 * for an unknown reason. Perhaps stuck in a block? FAST_BREAKING - If player is
-		 * rapidly breaking blocks, this reason is used.
-		 */
+		/** SAFETY_UPDATE - An occassional update that occurs when a player is
+		 * teleported for an unknown reason. Perhaps stuck in a block? FAST_BREAKING -
+		 * If player is rapidly breaking blocks, this reason is used. */
 		SAFETY_UPDATE, FAST_BREAKING
 	}
 
@@ -39,10 +34,7 @@ public class BlockUpdateEvent extends Event implements Cancellable {
 		return player;
 	}
 
-	/**
-	 * 
-	 * @return Returns reason for why the BlockUpdateEvent was called
-	 */
+	/** @return Returns reason for why the BlockUpdateEvent was called */
 	public BlockUpdateReason getReason() {
 		return reason;
 	}
