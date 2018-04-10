@@ -1,5 +1,6 @@
 package me.geekles.blockglitchfix.events;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -48,19 +49,17 @@ public class BlockGlitchFixListeners implements Listener {
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
-		Player player = e.getPlayer();
 		// No need to continue checking to see if player is breaking blocks rapidly if
 		// player suddenly decides
 		// to place some blocks down :P
-		plugin.data.removeData(player);
+		plugin.data.removeData(e.getPlayer().getUniqueId());
 	}
 
 	@EventHandler
 	public void onPlayerDisconnect(PlayerQuitEvent e) {
-		Player player = e.getPlayer();
 		// Frees up some memory and unnecessary player checks if the player is no longer
 		// online (Optimization)
-		plugin.data.removeData(player);
+		plugin.data.removeData(e.getPlayer().getUniqueId());
 	}
 
 	@EventHandler
@@ -74,14 +73,15 @@ public class BlockGlitchFixListeners implements Listener {
 		plugin.data.lastBreakTime.put(id, System.currentTimeMillis()); // Temporarily stores the player with the time they last broke a block
 	}
 
+	@SuppressWarnings("unchecked")
 	@EventHandler
 	public void onBlockUpdate(BlockUpdateEvent e) {
-		for (UUID id : plugin.data.blockCheck) { // Gets a list of players (based off of their UUID) to check
+		for (UUID id : (HashSet<UUID>) plugin.data.blockCheck.clone()) { // Gets a list of players (based off of their UUID) to check
 			if (System.currentTimeMillis() - plugin.data.lastBreakTime.get(id) >= plugin.data.COOLDOWN_CHECKER) { // checks to see the last time the player broke a block
 				if (!plugin.data.lastBreakTimeSlow.containsKey(id)) {
 					plugin.data.lastBreakTimeSlow.put(id, System.currentTimeMillis()); // marks player for further review later if they continue to break blocks slowly
 				} else if (System.currentTimeMillis() - plugin.data.lastBreakTimeSlow.get(id) >= plugin.data.COOLDOWN_CHECKER_REMOVAL) {
-					plugin.data.removeData(id); // free up some memory
+					plugin.data.removeData(id);
 				}
 			} else if (plugin.data.lastBreakTimeSlow.containsKey(id)) { // Checks to see if player was marked for further review to see if they continue
 																		// to break blocks slowly

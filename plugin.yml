@@ -1,5 +1,5 @@
 name: BlockGlitchFix
-version: 1.6.2-BlockGlitchFix-SNAPSHOT-8
+version: 1.6.3-BlockGlitchFix-SNAPSHOT-9
 main: me.geekles.blockglitchfix.BlockGlitchFix
 description: A lightweight simple block fix to prevent players from being stuck in glitched blocks.
 author: geekles

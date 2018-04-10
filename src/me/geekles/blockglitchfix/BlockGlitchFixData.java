@@ -24,7 +24,7 @@ public class BlockGlitchFixData {
 		removeData(player.getUniqueId());
 	}
 
-	public void removeData(UUID id) {
+	public void removeData(UUID id) { // schedules certain players for removal
 		blockCheck.remove(id);
 		lastBreakTime.remove(id);
 		lastBreakTimeSlow.remove(id);

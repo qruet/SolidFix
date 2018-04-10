@@ -1,6 +1,7 @@
 package me.geekles.blockglitchfix;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -67,14 +68,15 @@ public class BlockGlitchFix extends JavaPlugin {
 
 	protected void blockUpdater() {
 		new BukkitRunnable() {
+			@SuppressWarnings("unchecked")
 			public void run() {
-				for (UUID id : data.blockCheck) {
+				for (UUID id : (HashSet<UUID>) data.blockCheck.clone()) {
 					BlockUpdateEvent event = new BlockUpdateEvent(Bukkit.getPlayer(id), BlockUpdateReason.FAST_BREAKING);
 					/* Creates an instance of a custom listener class and is ready to call. */
 					Bukkit.getPluginManager().callEvent(event);
 					Player player = Bukkit.getPlayer(id);
 					if (!event.isCancelled() && player != null) { // makes sure the called event hasn't been cancelled
-						updateBlocks(Bukkit.getPlayer(id), data.RADIUS); // updates blocks
+						updateBlocks(player, data.RADIUS); // updates blocks
 					}
 				}
 			}
