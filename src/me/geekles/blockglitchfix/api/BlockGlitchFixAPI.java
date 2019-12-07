@@ -1,8 +1,15 @@
 package me.geekles.blockglitchfix.api;
 
+import me.geekles.blockglitchfix.BlockGlitchFixData;
+import me.geekles.blockglitchfix.config.ConfigData;
+import me.geekles.blockglitchfix.events.BlockGlitchFixListener;
+import me.geekles.blockglitchfix.mechanism.GlitchMechanic;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.geekles.blockglitchfix.BlockGlitchFix;
+
+import java.util.UUID;
 
 /**
  * The BlockGlitchFix resource API with relatively basic manipulation of the
@@ -16,12 +23,11 @@ import me.geekles.blockglitchfix.BlockGlitchFix;
 
 public class BlockGlitchFixAPI {
 
-	/**
-	 * API instance
-	 */
-	public static BlockGlitchFixAPI API;
+	private BlockGlitchFixData data;
 
-	private BlockGlitchFix plugin;
+	public static BlockGlitchFixAPI init(BlockGlitchFix plugin) {
+		return new BlockGlitchFixAPI(plugin);
+	}
 
 	/**
 	 * This constructor is used to instantiate the API, do not touch
@@ -29,9 +35,8 @@ public class BlockGlitchFixAPI {
 	 * @param plugin
 	 *            Main class
 	 */
-	public BlockGlitchFixAPI(BlockGlitchFix plugin) {
-		API = this;
-		this.plugin = plugin;
+	private BlockGlitchFixAPI(BlockGlitchFix plugin) {
+		this.data = plugin.getData();
 	}
 
 	/**
@@ -40,7 +45,7 @@ public class BlockGlitchFixAPI {
 	 *         break before player qualifies as "fast block breaking".
 	 */
 	public long getCoolDownChecker() {
-		return plugin.data.COOLDOWN_CHECKER;
+		return ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.get();
 	}
 
 	/**
@@ -50,7 +55,7 @@ public class BlockGlitchFixAPI {
 	 *         updates.
 	 */
 	public long getCoolDownCheckerRemoval() {
-		return plugin.data.COOLDOWN_CHECKER_REMOVAL;
+		return ConfigData.BLOCK_UPDATE_REMOVAL_COOLDOWN.get();
 	}
 
 	/**
@@ -58,7 +63,7 @@ public class BlockGlitchFixAPI {
 	 * @return Returns in ticks how often every player receives block updates
 	 */
 	public long getUpdateInterval() {
-		return plugin.data.UPDATE_INTERVAL;
+		return ConfigData.BLOCK_UPDATE_INTERVAL.get();
 	}
 
 	/**
@@ -67,7 +72,7 @@ public class BlockGlitchFixAPI {
 	 *         player's location are being updated for the player.
 	 */
 	public int getRadius() {
-		return plugin.data.RADIUS;
+		return ConfigData.RADIUS.get();
 	}
 
 	/**
@@ -75,8 +80,8 @@ public class BlockGlitchFixAPI {
 	 * @return Returns a list of players receiving active block packet updates.
 	 *         These players are actively breaking blocks rapidly.
 	 */
-	public Player[] getPlayers() {
-		return plugin.data.blockCheck.toArray(new Player[plugin.data.blockCheck.size()]);
+	public UUID[] getPlayers() {
+		return data.blockCheck.toArray(new UUID[0]);
 	}
 
 	/**
@@ -89,7 +94,7 @@ public class BlockGlitchFixAPI {
 	 */
 	public boolean updateNearbyBlocks(Player player, int radius, boolean debug) {
 		try {
-			plugin.updateBlocks(player, radius);
+			GlitchMechanic.updateBlocks(player, radius);
 		} catch (Exception e) {
 			if (debug) {
 				e.printStackTrace();

@@ -3,6 +3,8 @@ package me.geekles.blockglitchfix.runnables;
 import java.util.HashSet;
 import java.util.UUID;
 
+import me.geekles.blockglitchfix.config.ConfigData;
+import me.geekles.blockglitchfix.mechanism.GlitchMechanic;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -27,19 +29,19 @@ public class BlockUpdateChecker extends BukkitRunnable {
 
 	/** Stop checking players. */
 	public void stopCheck() {
-		plugin.data.blockCheck.clear();
+		plugin.getData().blockCheck.clear();
 		cancel();
 	}
 
 	@SuppressWarnings("unchecked")
 	public void run() {
-		for (UUID id : (HashSet<UUID>) plugin.data.blockCheck.clone()) {
+		for (UUID id : (HashSet<UUID>) plugin.getData().blockCheck.clone()) {
 			BlockUpdateEvent event = new BlockUpdateEvent(Bukkit.getPlayer(id), BlockUpdateReason.FAST_BREAKING);
 			/* Creates an instance of a custom listener class and is ready to call. */
 			Bukkit.getPluginManager().callEvent(event);
 			Player player = Bukkit.getPlayer(id);
 			if (!event.isCancelled() && player != null) { // makes sure the called event hasn't been cancelled
-				plugin.updateBlocks(player, plugin.data.RADIUS); // updates blocks
+				GlitchMechanic.updateBlocks(player, ConfigData.RADIUS.get()); // updates blocks
 			}
 		}
 	}
