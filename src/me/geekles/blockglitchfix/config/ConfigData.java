@@ -1,6 +1,9 @@
 package me.geekles.blockglitchfix.config;
 
-
+/**
+ * @author geekles
+ * @version 1.7
+ */
 public enum ConfigData {
 
     BLOCK_BREAK_SENSITIVITY_COOLDOWN("BlockBreakSensitivityCooldown", 50),

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 /**
  * Responsible for updating a player's client with new block packets
  * @author geekles
- * @version 1.6.6
+ * @version 1.7
  */
 public class GlitchMechanic {
 

@@ -5,6 +5,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Responsible for collecting data from the config
+ * @author geekles
+ * @version 1.7
  */
 public class ConfigLoader {
     /**

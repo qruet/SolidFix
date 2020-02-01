@@ -21,6 +21,11 @@ import me.geekles.blockglitchfix.BlockGlitchFix;
 import me.geekles.blockglitchfix.api.listeners.BlockUpdateEvent;
 import me.geekles.blockglitchfix.api.listeners.BlockUpdateEvent.BlockUpdateReason;
 
+/**
+ * Responsible for listening for triggering events to fire block updates
+ * @author geekles
+ * @version 1.7
+ */
 public class BlockGlitchFixListener implements Listener {
 
     private BlockGlitchFixData data;

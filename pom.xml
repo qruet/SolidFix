@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.geekles.blockglitchfix.BlockGlitchFix</groupId>
     <artifactId>BlockGlitchFix</artifactId>
-    <version>1.6.${buildNumber}</version>
+    <version>1.7.${buildNumber}</version>
     <name>BlockGlitchFix</name>
     <description>A lightweight fix to prevent bad block packets from ruining your players' gaming experience.
     </description>
@@ -70,7 +70,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
