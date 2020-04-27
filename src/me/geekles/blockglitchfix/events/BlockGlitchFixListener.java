@@ -4,9 +4,12 @@ import java.util.HashSet;
 import java.util.UUID;
 
 import me.geekles.blockglitchfix.BlockGlitchFixData;
+import me.geekles.blockglitchfix.api.listeners.PlayerWatcher;
+import me.geekles.blockglitchfix.api.listeners.WorldWatcher;
 import me.geekles.blockglitchfix.config.ConfigData;
 import me.geekles.blockglitchfix.mechanism.GlitchMechanic;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -23,6 +26,7 @@ import me.geekles.blockglitchfix.api.listeners.BlockUpdateEvent.BlockUpdateReaso
 
 /**
  * Responsible for listening for triggering events to fire block updates
+ *
  * @author geekles
  * @version 1.7
  */
@@ -36,13 +40,20 @@ public class BlockGlitchFixListener implements Listener {
 
     /**
      * Teleport Safety Feature (Avoid glitching into a bad block packet after teleporting)
+     *
      * @param e
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onTeleportInterrupt(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
+        World world = player.getLocation().getWorld();
         TeleportCause cause = e.getCause();
-        if (cause != TeleportCause.UNKNOWN)
+        if (cause != TeleportCause.UNKNOWN ||
+                !player.getLocation().getChunk().isLoaded() ||
+                PlayerWatcher.getBlacklistedPlayers().contains(player.getUniqueId()))
+            return;
+
+        if (WorldWatcher.getBlacklistedWorlds().stream().anyMatch(w -> w.getUID().equals(world.getUID())))
             return;
 
         BlockUpdateEvent event = new BlockUpdateEvent(player, BlockUpdateReason.SAFETY_UPDATE);
@@ -66,7 +77,7 @@ public class BlockGlitchFixListener implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         UUID id = e.getPlayer().getUniqueId();
         if (!data.blockCheck.contains(id) && data.lastBreakTime.containsKey(id)) {
-            if (System.currentTimeMillis() - data.lastBreakTime.get(id) <= ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.get()) {
+            if (System.currentTimeMillis() - data.lastBreakTime.get(id) <= ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.getInt()) {
                 data.blockCheck.add(id); // mark player for block updates
             }
         }
@@ -77,10 +88,10 @@ public class BlockGlitchFixListener implements Listener {
     @EventHandler
     public void onBlockUpdate(BlockUpdateEvent e) {
         for (UUID id : (HashSet<UUID>) data.blockCheck.clone()) { // Gets a list of players (based off of their UUID) to check
-            if (System.currentTimeMillis() - data.lastBreakTime.get(id) >= ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.get()) { // checks to see the last time the player broke a block
+            if (System.currentTimeMillis() - data.lastBreakTime.get(id) >= ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.getInt()) { // checks to see the last time the player broke a block
                 if (!data.lastBreakTimeSlow.containsKey(id)) {
                     data.lastBreakTimeSlow.put(id, System.currentTimeMillis()); // marks player for further review later if they continue to break blocks slowly
-                } else if (System.currentTimeMillis() - data.lastBreakTimeSlow.get(id) >= ConfigData.BLOCK_UPDATE_REMOVAL_COOLDOWN.get()) {
+                } else if (System.currentTimeMillis() - data.lastBreakTimeSlow.get(id) >= ConfigData.BLOCK_UPDATE_REMOVAL_COOLDOWN.getInt()) {
                     data.removeData(id);
                 }
                 continue;

@@ -45,7 +45,7 @@ public class BlockGlitchFixAPI {
 	 *         break before player qualifies as "fast block breaking".
 	 */
 	public long getCoolDownChecker() {
-		return ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.get();
+		return ConfigData.BLOCK_BREAK_SENSITIVITY_COOLDOWN.getInt();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class BlockGlitchFixAPI {
 	 *         updates.
 	 */
 	public long getCoolDownCheckerRemoval() {
-		return ConfigData.BLOCK_UPDATE_REMOVAL_COOLDOWN.get();
+		return ConfigData.BLOCK_UPDATE_REMOVAL_COOLDOWN.getInt();
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class BlockGlitchFixAPI {
 	 * @return Returns in ticks how often every player receives block updates
 	 */
 	public long getUpdateInterval() {
-		return ConfigData.BLOCK_UPDATE_INTERVAL.get();
+		return ConfigData.BLOCK_UPDATE_INTERVAL.getInt();
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class BlockGlitchFixAPI {
 	 *         player's location are being updated for the player.
 	 */
 	public int getRadius() {
-		return ConfigData.RADIUS.get();
+		return ConfigData.RADIUS.getInt();
 	}
 
 	/**
