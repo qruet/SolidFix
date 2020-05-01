@@ -47,10 +47,10 @@ public class GlitchMechanic {
                     for (int y = (int) center.getY(); y <= center.getY() + (radius * 2); y++) {
                         for (int z = (int) center.getZ(); z <= center.getZ() + (radius * 2); z++) {
                             Location loc = new Location(w, x, y, z);
-                             if(!loc.getChunk().isLoaded()) {
-                                 z += 15;
-                                 continue;
-                             }
+                            if (!loc.getWorld().isChunkLoaded(loc.getBlockX() >> 4, loc.getBlockZ() >> 4)) {
+                                z += 15;
+                                continue;
+                            }
                             updateList.add(loc);
                         }
                     }
