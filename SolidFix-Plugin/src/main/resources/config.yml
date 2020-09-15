@@ -1,0 +1,42 @@
+# ==============================| SolidFix |==============================
+# A fix developed by qruet
+# Show me your appreciation by buying me a coffee! https://www.paypal.me/qruet
+# ================================================================================
+
+# The plugin by default checks your server version to determine if a block fix is necessary and disables itself accordingly.
+# In the latest versions of the game, Mojang has been fairly successful at removing this block issue through the client.
+# If you are convinced the issue still occurs on your server but the plugin is disabling itself - set this option to True.
+Override Version Check: False
+
+# Define the maximum ping that a player would need to be classified as a low or medium priority.
+# Ping rates are measured in (ms).
+# Do not change this if you are not sure what you are doing.
+Priorities:
+  LOW:
+    Max Ping: 150
+  MEDIUM:
+    Max Ping: 300
+
+# This sets for the cooldown (ms) necessary between block breaks for this plugin to begin updating nearby blocks for the player
+# The sensitivity is organized by priority.
+# Priorities (LOW, MEDIUM, HIGH) are determined based off of the player's ping.
+# A player with good ping will be considered low priority for the plugin for example.
+# Players with high ping rates will be more likely to experience more frequent ghost blocks
+
+# Smaller Number = Optimizes performance in exchange for accuracy
+# Unit: Milliseconds
+Block Break Sensitivity:
+  LOW: 150
+  MEDIUM: 300
+  HIGH: 650
+
+# Block Update Radius (from player)
+# Smaller Number = Improved Server Performance (less resource intensive)
+# Unit: Blocks
+Radius: 4
+
+# Visual Bug Fix
+# Reported on 1.8 clients
+# This is not related to the ghost block fix but rather a visual chunk bug that occurs while
+# changing worlds or connecting to the server within the first several seconds.
+Chunk Visual Bug Fix: False
