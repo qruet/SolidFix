@@ -2,6 +2,11 @@ package dev.qruet.solidfix.player;
 
 import dev.qruet.solidfix.config.ConfigData;
 
+/**
+ * Enum that designates player priority
+ * @author qruet
+ * @version 2.0_02
+ */
 public enum Priority {
 
     HIGH, MEDIUM, LOW;
@@ -10,6 +15,10 @@ public enum Priority {
     Priority() {
     }
 
+    /**
+     * Retrieves associated block break sensitivity with priority
+     * @return sensitivity
+     */
     public int getSensitivity() {
         switch (this) {
             case LOW:
@@ -26,7 +35,7 @@ public enum Priority {
      * Provides appropriate associated priority for designated ping rate
      *
      * @param ping Player ping
-     * @return
+     * @return Priority type
      */
     public static Priority getPriority(int ping) {
         if (ConfigData.LOW_PRIORITY_MINIMUM.getInt() >= ping)

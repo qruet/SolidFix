@@ -13,7 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashMap;
 
 /**
- * Responsible for registering the commands for the plugin
+ * Registers a subclass as a the command executor for SolidFix and handles any
+ * incoming arguments associated with the /solidfix alias
  *
  * @author qruet
  * @version 1.9_01
@@ -29,6 +30,10 @@ public class CommandManager extends SolidManager {
         super(registrar);
     }
 
+    /**
+     * Registers CommandManager.SolidFixExecutor.class as the command executor
+     * @return
+     */
     @Override
     public boolean init() {
         PluginCommand rel_cmd = JavaPlugin.getPlugin(SolidFix.class).getCommand("solidfix");
@@ -41,6 +46,9 @@ public class CommandManager extends SolidManager {
         return true;
     }
 
+    /**
+     * Handles any incoming arguments associated with the /solidfix alias
+     */
     private class SolidFixExecutor implements CommandExecutor {
 
         @Override

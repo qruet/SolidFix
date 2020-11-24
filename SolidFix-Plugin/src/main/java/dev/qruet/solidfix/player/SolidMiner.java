@@ -34,30 +34,60 @@ public class SolidMiner {
         this.bq = new PairQueue<>(null, null);
     }
 
+    /**
+     * Retrieves most recently added block to bq
+     *
+     * @return Recently broken block by player
+     */
     public Block getRecentBrokenBlock() {
         return (bq.getRecent() != null ? bq.getRecent().getKey() : null);
     }
 
+    /**
+     * Adds a new block and its associated timestamp to PairQueue
+     * @param block
+     */
     public void logBlockBreak(Block block) {
         bq.add(new Pair<>(block, System.currentTimeMillis()));
     }
 
+    /**
+     * Player's UUID
+     * @return Player UUID
+     */
     public UUID getId() {
         return uid;
     }
 
+    /**
+     * Returns global variable ping
+     * @return Player's ping
+     */
     public int getPing() {
         return ping;
     }
 
+    /**
+     * Returns bukkit player instance
+     * @return Player
+     */
     public Player getPlayer() {
         return Bukkit.getPlayer(getId());
     }
 
+    /**
+     * Returns global variable fast_mining
+     * @return Is player currently fast mining
+     */
     public boolean isFastMining() {
         return fast_mining;
     }
 
+    /**
+     * Updates global variables
+     * e.g. ping, priority (determined by ping), fast_mining (depending on time displacement since
+     * most recently broken block and the player's current priority sensitivity)
+     */
     public void t() {
         Player player = Bukkit.getPlayer(uid);
         if (player == null)

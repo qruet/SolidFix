@@ -8,7 +8,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+
 /**
+ * Command responsible for reloading the plugin's config
  * @author qruet
  * @version 1.9_01
  */
@@ -20,14 +24,18 @@ public class ReloadCmd implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("solidfix.admin.reload"))
                 return false;
-            ConfigData[] o_data = ConfigData.values();
+
+            long start = System.currentTimeMillis();
+            LinkedList<Object> o_data = new LinkedList<>();
+            Arrays.stream(ConfigData.values()).forEach(d -> o_data.add(d.get()));
             ConfigDeserializer.reload();
             ConfigData[] n_data = ConfigData.values();
-            for (int i = 0; i < o_data.length; i++) {
-                player.sendMessage(T.C("&e* &6updated " + n_data[i].getPath() + " &c&o" +
-                        o_data[i].get() + " -> " + n_data[i].get()));
+            long end = System.currentTimeMillis();
+            for (int i = 0; i < n_data.length; i++) {
+                sender.sendMessage(T.C(" &e* &6updated " + n_data[i].getPath() + " &c&o") +
+                        o_data.get(i) + " -> " + n_data[i].get());
             }
-            player.sendMessage(T.C("&aSuccessfully reloaded configuration."));
+            player.sendMessage(T.C("&aSuccessfully reloaded configuration in " + (end-start) + "ms!"));
         }
         return false;
     }

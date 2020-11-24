@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 
 /**
+ * Responsible for updating recently broken blocks by player that is fast mining
  * @author qruet
  * @version 1.9_01
  */
@@ -26,6 +27,10 @@ public class BlockUpdateManager extends SolidManager {
         super(registrar);
     }
 
+    /**
+     * Starts a new task
+     * @return is success
+     */
     public boolean init() {
         if (task != null)
             throw new UnsupportedOperationException("Can not yet disable a non-initialized class.");
@@ -34,6 +39,10 @@ public class BlockUpdateManager extends SolidManager {
         return true;
     }
 
+    /**
+     * Disables started task
+     * @return is success
+     */
     public boolean disable() {
         if (task == null)
             return false;
@@ -41,19 +50,36 @@ public class BlockUpdateManager extends SolidManager {
         return true;
     }
 
+    /**
+     * A loop that constantly checks online players
+     * that are fast mining and updates nearby blocks
+     */
     private class Task extends Thread {
 
         private Iterator<SolidMiner> mIterator;
         private boolean cancelled;
 
+        /**
+         * Returns cancelled
+         * @return Task cancelled
+         */
         public boolean isCancelled() {
             return cancelled;
         }
 
+        /**
+         * Updates the cancelled variable to true
+         */
         public void cancel() {
             cancelled = true;
         }
 
+        /**
+         * Variable loop depending on the local delay variable
+         * Clones and iterates all players that are fast mining (isFastMining = true)
+         * Calls BlockUpdateEvent and updates blocks around the most recently broken block
+         * by player that is fast mining
+         */
         public void run() {
             while (!cancelled) {
                 mIterator = SolidServer.getOnlinePlayers()

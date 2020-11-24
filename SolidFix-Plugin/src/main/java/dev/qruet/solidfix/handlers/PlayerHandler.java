@@ -28,7 +28,7 @@ public class PlayerHandler implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onTeleportInterrupt(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
-        if (SolidServer.getOnlinePlayer(player.getUniqueId()) == null)
+        if (SolidServer.getMiner(player.getUniqueId()) == null)
             return;
 
         World world = player.getLocation().getWorld();

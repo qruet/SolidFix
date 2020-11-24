@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
+ * Command responsible for providing helpful information on the plugin
  * @author qruet
  * @version 1.9_01
  */
@@ -24,8 +25,7 @@ public class HelpCmd implements CommandExecutor {
                     JavaPlugin.getPlugin(SolidFix.class).getDescription().getVersion())));
             player.sendMessage(T.center(T.C("&e&ocreated by qruet")));
             player.sendMessage(T.C(" &eresource: " +
-                    "&b&ohttps://www.spigotmc.org/resources/block-glitch-" +
-                    "%E2%98%85-fix-%E2%98%85-an-essential-solution-that-finally-exists.54103/"));
+                    "&b&ohhttps://www.spigotmc.org/resources/solidfix.54103/"));
             player.sendMessage(T.C(" &esupport: &b&ohttps://discord.com/invite/fx9gm7T"));
             player.sendMessage(T.C(" &edonate: &b&ohttps://www.paypal.com/paypalme/qruet"));
             player.sendMessage(T.C("  &8&m-----&r"));
@@ -40,7 +40,7 @@ public class HelpCmd implements CommandExecutor {
             player.sendMessage(T.C(" &6Commands: "));
             player.sendMessage(T.C("  &e* &8/&7reload &8- &6Reloads the plugin's config"));
             player.sendMessage(T.C("       &6- &c&osolidfix.admin.reload"));
-            player.sendMessage(T.C("  &e*&8/&7help &8- &6Provides information on this plugin"));
+            player.sendMessage(T.C("  &e* &8/&7help &8- &6Provides information on this plugin"));
             player.sendMessage(T.center(T.C("&8&m------------------------------")));
             return true;
         }

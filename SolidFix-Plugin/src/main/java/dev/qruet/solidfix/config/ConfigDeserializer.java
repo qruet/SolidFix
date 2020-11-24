@@ -14,7 +14,9 @@ public class ConfigDeserializer {
     private static JavaPlugin plugin;
 
     /**
-     * Called while plugin is being initialized
+     * Calls necessary functions to deserialize
+     * and load values into the plugin from the
+     * config
      *
      * @param plugin Plugin instance
      */
@@ -26,7 +28,10 @@ public class ConfigDeserializer {
         plugin.getLogger().info("Collected data from config.");
     }
 
-
+    /**
+     * Reads values from the config and updates ConfigData's enums
+     * to their associated values from config
+     */
     private static void deserialize() {
         FileConfiguration config = plugin.getConfig();
         for (ConfigData dataField : ConfigData.values()) {
@@ -39,6 +44,9 @@ public class ConfigDeserializer {
         }
     }
 
+    /**
+     * A command to update config and deserialize the updated values.
+     */
     public static void reload() {
         plugin.reloadConfig();
         deserialize();

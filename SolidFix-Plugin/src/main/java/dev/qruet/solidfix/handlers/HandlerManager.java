@@ -1,4 +1,4 @@
-package dev.qruet.solidfix.listeners;
+package dev.qruet.solidfix.handlers;
 
 import dev.qruet.solidfix.CoreManager;
 import dev.qruet.solidfix.SolidFix;
@@ -13,15 +13,16 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 
 /**
- * Responsible for registering/unregistering related listeners
+ * Registers associated listeners (handlers) responsible for
+ * handling certain triggered events
  * @author qruet
  * @version 2.0_02
  */
-public class ListenerManager extends SolidManager {
+public class HandlerManager extends SolidManager {
 
-    private static final LinkedList<Listener> LISTENERS = new LinkedList<>();
+    private static final LinkedList<Listener> HANDLERS = new LinkedList<>();
 
-    public ListenerManager(CoreManager.Registrar registrar) {
+    public HandlerManager(CoreManager.Registrar registrar) {
         super(registrar);
     }
 
@@ -31,7 +32,7 @@ public class ListenerManager extends SolidManager {
      * @return was successful
      */
     public boolean init() {
-        Reflections reflections = new Reflections(ListenerManager.class.getPackage().getName());
+        Reflections reflections = new Reflections(HandlerManager.class.getPackage().getName());
         reflections.getSubTypesOf(Listener.class).forEach(clazz -> {
             Listener listener;
             try {
@@ -41,7 +42,7 @@ public class ListenerManager extends SolidManager {
                 return;
             }
             Bukkit.getPluginManager().registerEvents(listener, JavaPlugin.getPlugin(SolidFix.class));
-            LISTENERS.add(listener);
+            HANDLERS.add(listener);
         });
         return true;
     }
@@ -51,7 +52,7 @@ public class ListenerManager extends SolidManager {
      * @return was successful
      */
     public boolean disable() {
-        LISTENERS.forEach(HandlerList::unregisterAll);
+        HANDLERS.forEach(HandlerList::unregisterAll);
         return true;
     }
 

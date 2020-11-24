@@ -8,8 +8,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Responsible for initializing the numerous parts of the plugin
@@ -18,8 +16,6 @@ import java.util.List;
  * @version 1.9_01
  */
 public class SolidFix extends JavaPlugin {
-
-    private static final List<String> WHITELISTED_VERSIONS = Arrays.asList("1.8", "1.9", "1.10", "1.11", "1.12", "1.14");
 
     public void onEnable() {
         Tasky.setPlugin(this);
@@ -37,15 +33,6 @@ public class SolidFix extends JavaPlugin {
 
         ConfigDeserializer.init(this); //deserialize config
 
-        if (!ConfigData.OVERRIDE_VERSION_CHECK.getBoolean() && !(WHITELISTED_VERSIONS.contains(version))) {
-            getLogger().severe("The plugin does not support the current version of your server, " + Bukkit.getVersion() + ". " +
-                    "This is likely because the client glitch effect has been already resolved by Mojang. " +
-                    "Note: You can override this error by changing \"Override Version Check\" from \"False\" to \"True\"" +
-                    " in the config.");
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
         if (ConfigData.VISUAL_FIX.getBoolean()) {
             getLogger().info("Implementing visual fix procedures.");
             if (!version.equals("1.8")) {
@@ -57,13 +44,13 @@ public class SolidFix extends JavaPlugin {
 
         getLogger().info("Initializing core systems.");
         Tasky.sync(t -> {
-            CoreManager.init();
-            SolidServer.init();
+            CoreManager.init(); //initialize all associated core managers within the plugin
+            SolidServer.init(); //initialize a new server instance
         }, 1L);
 
         getLogger().info("Initialized successfully!");
         getLogger().info("Is my performance satisfactory? If you enjoy having me around, leave a review on my spigot page!");
-        getLogger().info("https://www.spigotmc.org/resources/block-glitch-%E2%98%85-fix-%E2%98%85-an-essential-solution-that-finally-exists.54103/");
+        getLogger().info("https://www.spigotmc.org/resources/solidfix.54103/");
     }
 
     public void onDisable() {
@@ -73,6 +60,6 @@ public class SolidFix extends JavaPlugin {
         } catch (UnsupportedOperationException e) {
         }
         HandlerList.unregisterAll(this);
-        getLogger().info("BlockGlitchFix has been successfully disabled!");
+        getLogger().info("SolidFix has been successfully disabled!");
     }
 }
