@@ -28,17 +28,9 @@ public class CommandManager extends SolidManager {
 
     public CommandManager(CoreManager.Registrar registrar) {
         super(registrar);
-    }
 
-    /**
-     * Registers CommandManager.SolidFixExecutor.class as the command executor
-     * @return
-     */
-    @Override
-    public boolean init() {
         PluginCommand rel_cmd = JavaPlugin.getPlugin(SolidFix.class).getCommand("solidfix");
         rel_cmd.setExecutor(new SolidFixExecutor());
-        return true;
     }
 
     @Override

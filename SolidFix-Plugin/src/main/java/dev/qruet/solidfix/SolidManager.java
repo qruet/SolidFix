@@ -12,8 +12,6 @@ public abstract class SolidManager {
             throw new UnsupportedOperationException();
     }
 
-    public abstract boolean init();
-
     public abstract boolean disable();
 
 }

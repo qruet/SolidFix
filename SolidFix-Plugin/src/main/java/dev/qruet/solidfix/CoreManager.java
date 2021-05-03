@@ -1,10 +1,13 @@
 package dev.qruet.solidfix;
 
-import org.reflections.Reflections;
+import dev.qruet.solidfix.commands.CommandManager;
+import dev.qruet.solidfix.handlers.HandlerManager;
+import dev.qruet.solidfix.listeners.ListenerManager;
+import dev.qruet.solidfix.timers.BlockUpdateManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages the managers
@@ -14,47 +17,46 @@ import java.util.Map;
  */
 public class CoreManager {
 
-    private static final Map<SolidManager, Boolean> MANAGERS = new HashMap<>();
+    private static final Class<?>[] MANAGER_CLASSES = {BlockUpdateManager.class, CommandManager.class, HandlerManager.class, ListenerManager.class};
 
-    private CoreManager() {
-        throw new UnsupportedOperationException();
-    }
+    private final List<SolidManager> MANAGER_REGISTRY = new LinkedList<>();
 
-    public static void init() {
-        if (!MANAGERS.isEmpty())
-            throw new UnsupportedOperationException("Can not initialize an already initialized class.");
+    private final JavaPlugin plugin;
 
-        Reflections reflections = new Reflections(CoreManager.class.getPackage().getName());
-        reflections.getSubTypesOf(SolidManager.class).forEach(clazz -> {
+    public CoreManager(JavaPlugin plugin) {
+        this.plugin = plugin;
+
+        Arrays.stream(MANAGER_CLASSES).forEach(clazz -> {
             SolidManager manager;
             try {
                 Registrar registrar = new Registrar();
-                manager = clazz.getConstructor(Registrar.class).newInstance(registrar);
+                manager = ((Class<? extends SolidManager>) clazz).getConstructor(Registrar.class).newInstance(registrar);
                 registrar.set(manager);
             } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
                 e.printStackTrace();
                 return;
             }
-            MANAGERS.put(manager, manager.init());
+            MANAGER_REGISTRY.add(manager);
         });
     }
 
-    public static void disable() {
-        if (MANAGERS.isEmpty())
+    public void disable() {
+        if (MANAGER_REGISTRY.isEmpty())
             throw new UnsupportedOperationException("Can not yet disable a non-initialized class.");
 
-        MANAGERS.forEach((k, v) -> {
-            if (v)
-                k.disable();
-        });
-        MANAGERS.clear();
+        MANAGER_REGISTRY.forEach(SolidManager::disable);
+        MANAGER_REGISTRY.clear();
     }
 
-    public static class Registrar {
+    public class Registrar {
 
         private SolidManager manager;
 
         private Registrar() {
+        }
+
+        public JavaPlugin getPlugin() {
+            return plugin;
         }
 
         private void set(SolidManager manager) {
@@ -64,7 +66,7 @@ public class CoreManager {
         public boolean isRegistered() {
             if (manager == null)
                 return false;
-            return MANAGERS.getOrDefault(manager, false);
+            return MANAGER_REGISTRY.contains(manager);
         }
     }
 

@@ -25,7 +25,7 @@ public class HelpCmd implements CommandExecutor {
                     JavaPlugin.getPlugin(SolidFix.class).getDescription().getVersion())));
             player.sendMessage(T.center(T.C("&e&ocreated by qruet")));
             player.sendMessage(T.C(" &eresource: " +
-                    "&b&ohhttps://www.spigotmc.org/resources/solidfix.54103/"));
+                    "&b&ohttps://www.spigotmc.org/resources/solidfix.54103/"));
             player.sendMessage(T.C(" &esupport: &b&ohttps://discord.com/invite/fx9gm7T"));
             player.sendMessage(T.C(" &edonate: &b&ohttps://www.paypal.com/paypalme/qruet"));
             player.sendMessage(T.C("  &8&m-----&r"));

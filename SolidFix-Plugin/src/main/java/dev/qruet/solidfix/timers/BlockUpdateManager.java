@@ -25,18 +25,10 @@ public class BlockUpdateManager extends SolidManager {
 
     public BlockUpdateManager(CoreManager.Registrar registrar) {
         super(registrar);
-    }
-
-    /**
-     * Starts a new task
-     * @return is success
-     */
-    public boolean init() {
         if (task != null)
             throw new UnsupportedOperationException("Can not yet disable a non-initialized class.");
         task = new Task();
         task.start();
-        return true;
     }
 
     /**

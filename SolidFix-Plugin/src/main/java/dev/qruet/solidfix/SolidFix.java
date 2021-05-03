@@ -17,6 +17,8 @@ import java.io.File;
  */
 public class SolidFix extends JavaPlugin {
 
+    private static CoreManager CORE_MANAGER;
+
     public void onEnable() {
         Tasky.setPlugin(this);
 
@@ -44,7 +46,7 @@ public class SolidFix extends JavaPlugin {
 
         getLogger().info("Initializing core systems.");
         Tasky.sync(t -> {
-            CoreManager.init(); //initialize all associated core managers within the plugin
+            CORE_MANAGER = new CoreManager(this); //initialize all associated core managers within the plugin
             SolidServer.init(); //initialize a new server instance
         }, 1L);
 
@@ -56,7 +58,8 @@ public class SolidFix extends JavaPlugin {
     public void onDisable() {
         try {
             SolidServer.disable();
-            CoreManager.disable();
+            if(CORE_MANAGER != null)
+                CORE_MANAGER.disable();
         } catch (UnsupportedOperationException e) {
         }
         HandlerList.unregisterAll(this);

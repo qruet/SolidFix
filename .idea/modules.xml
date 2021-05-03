@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/SolidFix.iml" filepath="$PROJECT_DIR$/.idea/SolidFix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SolidFix-API/SolidFix-API.iml" filepath="$PROJECT_DIR$/SolidFix-API/SolidFix-API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SolidFix-Distro/SolidFix-Distro.iml" filepath="$PROJECT_DIR$/SolidFix-Distro/SolidFix-Distro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SolidFix-JDK_14/SolidFix-JDK_14.iml" filepath="$PROJECT_DIR$/SolidFix-JDK_14/SolidFix-JDK_14.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SolidFix-JDK_8/SolidFix-JDK_8.iml" filepath="$PROJECT_DIR$/SolidFix-JDK_8/SolidFix-JDK_8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SolidFix-Plugin/SolidFix-Plugin.iml" filepath="$PROJECT_DIR$/SolidFix-Plugin/SolidFix-Plugin.iml" />
+    </modules>
+  </component>
+</project>
