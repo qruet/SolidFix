@@ -48,6 +48,14 @@ public class ReflectionUtils {
         return utility.getCraftBukkitClass(classname);
     }
 
+    public static Field getField(Class<?> clazz, String name) {
+        return utility.getField(clazz, name);
+    }
+
+    public static Object invokeMethod(String method, Object obj, Object... args) {
+        return utility.invokeMethodWithArgs(method, obj, args);
+    }
+
     public static Method getMethod(String name, Class<?> clazz, Class<?>... paramTypes) {
         return utility.getMethod(name, clazz, paramTypes);
     }

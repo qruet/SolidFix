@@ -5,9 +5,11 @@ import dev.qruet.solidfix.SolidServer;
 import dev.qruet.solidfix.config.ConfigData;
 import dev.qruet.solidfix.player.SolidMiner;
 import dev.qruet.solidfix.utils.BlockUpdateUtil;
+import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.xml.validation.Validator;
 import java.util.Collection;
 
 /**
@@ -29,6 +31,7 @@ public class SolidFixAPI {
 
     /**
      * Retrieves values stored within the config.yml
+     *
      * @param data Data type
      * @return Associated value
      */
@@ -38,6 +41,7 @@ public class SolidFixAPI {
 
     /**
      * Retrieves a collection of SolidMiner instances
+     *
      * @return SolidMiners
      */
     public Collection<SolidMiner> getSolidPlayers() {
@@ -51,8 +55,10 @@ public class SolidFixAPI {
      * @return Returns true if execution was successful.
      */
     public boolean updateNearbyBlocks(Player player, int radius, boolean debug) {
+        SolidMiner miner = SolidServer.getMiner(player.getUniqueId());
+        Validate.notNull(miner, "Failed to retrieve SolidMiner instance for player, " + player.getName() + "!");
         try {
-            BlockUpdateUtil.updateBlocks(player, radius);
+            BlockUpdateUtil.updateBlocks(miner, radius);
         } catch (Exception e) {
             if (debug) {
                 e.printStackTrace();

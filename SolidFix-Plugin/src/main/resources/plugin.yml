@@ -3,7 +3,7 @@ version: ${project.parent.version}-b${buildNo}
 main: ${project.groupId}.${parent.name}
 api-version: 1.13
 description: Who ya gonna call? Ghost block busters! Helps resolve an issue with ghost (invisible/glitched) blocks.
-website: https://www.spigotmc.org/resources/block-glitch-%E2%98%85-fix-%E2%98%85-an-essential-solution-that-finally-exists.54103/
+website: https://www.spigotmc.org/resources/solidfix.54103/
 author: qruet
 
 commands:

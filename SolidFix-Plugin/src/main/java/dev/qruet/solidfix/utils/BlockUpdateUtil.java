@@ -1,5 +1,6 @@
 package dev.qruet.solidfix.utils;
 
+import dev.qruet.solidfix.player.SolidMiner;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -18,14 +19,14 @@ public class BlockUpdateUtil {
     /**
      * Updates the players with blocks that surround them using packets.
      *
-     * @param player Online player
+     * @param miner  Player
      * @param radius Update radius
      */
-    public static void updateBlocks(Player player, int radius) {
-        updateBlocks(player, player.getLocation(), radius);
+    public static void updateBlocks(SolidMiner miner, int radius) {
+        updateBlocks(miner, miner.getPlayer().getLocation(), radius);
     }
 
-    public synchronized static void updateBlocks(Player player, final Location origin, int radius) {
+    public synchronized static void updateBlocks(SolidMiner miner, final Location origin, int radius) {
         if (!origin.getChunk().isLoaded())
             return;
 
@@ -48,20 +49,19 @@ public class BlockUpdateUtil {
                     }
                 }
             }
-            updateBlocks(player, updateList);
+            updateBlocks(miner, updateList);
         });
     }
 
-    private synchronized static void updateBlocks(Player player, LinkedList<Location> locations) {
+    private synchronized static void updateBlocks(SolidMiner miner, LinkedList<Location> locations) {
         if (!Bukkit.isPrimaryThread()) {
             Tasky.sync(t -> {
-                updateBlocks(player, locations);
+                updateBlocks(miner, locations);
             });
         }
-        locations.forEach(l -> {
-            Block block = l.getBlock();
+        locations.forEach(loc -> {
             Tasky.async(t -> {
-                player.sendBlockChange(l, block.getType(), block.getData());
+                miner.sendBlockChange(loc);
             });
         });
     }

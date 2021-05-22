@@ -4,7 +4,10 @@ import dev.qruet.solidfix.utils.ReflectionUtils;
 import dev.qruet.solidfix.utils.java.Pair;
 import dev.qruet.solidfix.utils.java.PairQueue;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.Field;
@@ -45,6 +48,7 @@ public class SolidMiner {
 
     /**
      * Adds a new block and its associated timestamp to PairQueue
+     *
      * @param block
      */
     public void logBlockBreak(Block block) {
@@ -53,6 +57,7 @@ public class SolidMiner {
 
     /**
      * Player's UUID
+     *
      * @return Player UUID
      */
     public UUID getId() {
@@ -61,6 +66,7 @@ public class SolidMiner {
 
     /**
      * Returns global variable ping
+     *
      * @return Player's ping
      */
     public int getPing() {
@@ -69,6 +75,7 @@ public class SolidMiner {
 
     /**
      * Returns bukkit player instance
+     *
      * @return Player
      */
     public Player getPlayer() {
@@ -77,10 +84,65 @@ public class SolidMiner {
 
     /**
      * Returns global variable fast_mining
+     *
      * @return Is player currently fast mining
      */
     public boolean isFastMining() {
         return fast_mining;
+    }
+
+    /**
+     * A replacement for {@link Player#sendBlockChange(Location, BlockData)}
+     *
+     * @param location
+     */
+    public void sendBlockChange(Location location) {
+        Object packet = null;
+
+        Class<?> CraftPlayer = ReflectionUtils.getCraftBukkitClass("entity.CraftPlayer");
+        Class<?> EntityPlayer = ReflectionUtils.getNMSClass("EntityPlayer");
+        Object connection = null;
+        try {
+            connection = ReflectionUtils.getField(EntityPlayer, "playerConnection").get(ReflectionUtils.invokeMethod("getHandle", CraftPlayer.cast(getPlayer())));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Chunk chunk = location.getChunk();
+        Block block = location.getBlock();
+
+        Class<?> CraftWorld = ReflectionUtils.getCraftBukkitClass("CraftWorld");
+        Class<?> CraftBlock = ReflectionUtils.getCraftBukkitClass("block.CraftBlock");
+        Class<?> World = ReflectionUtils.getNMSClass("World");
+
+        Object world = ReflectionUtils.invokeMethod("getHandle", CraftWorld.cast(location.getWorld()));
+        Object position = ReflectionUtils.invokeMethod("getPosition", CraftBlock.cast(block));
+
+        Class<?> BlockPosition = ReflectionUtils.getNMSClass("BlockPosition");
+
+        Class<?> PacketPlayOutBlockChange = ReflectionUtils.getNMSClass("PacketPlayOutBlockChange");
+
+        if (ReflectionUtils.getVersion().startsWith("v1_12") || ReflectionUtils.getVersion().startsWith("v1_11") ||
+                ReflectionUtils.getVersion().startsWith("v1_10") || ReflectionUtils.getVersion().startsWith("v1_9") ||
+                ReflectionUtils.getVersion().startsWith("v1_8")) {
+            try {
+                packet = PacketPlayOutBlockChange.getConstructor(World, BlockPosition).newInstance(world, position);
+            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                Object blockAccess = World.getMethod("c", int.class, int.class).invoke(world, chunk.getX(), chunk.getZ());
+                Class<?> IBlockAccess = ReflectionUtils.getNMSClass("IBlockAccess");
+
+                packet = PacketPlayOutBlockChange.getConstructor(IBlockAccess, BlockPosition).newInstance(blockAccess, position);
+            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        ReflectionUtils.invokeMethod("sendPacket", connection, packet);
     }
 
     /**

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * Responsible for updating recently broken blocks by player that is fast mining
+ *
  * @author qruet
  * @version 1.9_01
  */
@@ -33,6 +34,7 @@ public class BlockUpdateManager extends SolidManager {
 
     /**
      * Disables started task
+     *
      * @return is success
      */
     public boolean disable() {
@@ -53,6 +55,7 @@ public class BlockUpdateManager extends SolidManager {
 
         /**
          * Returns cancelled
+         *
          * @return Task cancelled
          */
         public boolean isCancelled() {
@@ -93,7 +96,7 @@ public class BlockUpdateManager extends SolidManager {
                     // Creates an instance of a custom listener class and is ready to call.
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled()) { // makes sure the called event hasn't been cancelled
-                        BlockUpdateUtil.updateBlocks(player, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
+                        BlockUpdateUtil.updateBlocks(miner, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
                     }
 
                     try {

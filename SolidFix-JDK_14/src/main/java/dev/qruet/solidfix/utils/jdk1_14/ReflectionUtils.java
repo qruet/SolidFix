@@ -9,6 +9,7 @@ import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,7 +94,11 @@ public class ReflectionUtils implements ReflectionUtility {
      */
     public Object invokeMethodWithArgs(String method, Object obj, Object... args) {
         try {
-            return getMethod(method, obj.getClass()).invoke(obj, args);
+            Class<?>[] types = new Class<?>[args.length];
+            for (int i = 0; i < args.length; i++) {
+                types[i] = args[i].getClass();
+            }
+            return getMethod(method, obj.getClass(), types).invoke(obj, args);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
