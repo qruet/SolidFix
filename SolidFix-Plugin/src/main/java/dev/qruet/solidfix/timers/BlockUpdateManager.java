@@ -8,6 +8,7 @@ import dev.qruet.solidfix.events.BlockUpdateEvent;
 import dev.qruet.solidfix.player.SolidMiner;
 import dev.qruet.solidfix.utils.BlockUpdateUtil;
 import dev.qruet.solidfix.utils.ServerUtil;
+import dev.qruet.solidfix.utils.Tasky;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -92,12 +93,14 @@ public class BlockUpdateManager extends SolidManager {
                     if (SolidServer.getWorlds().stream().noneMatch(w -> w.getUID().equals(player.getWorld().getUID())))
                         continue;
 
+                    // Creates an instance of a custom event
                     BlockUpdateEvent event = new BlockUpdateEvent(player, BlockUpdateEvent.BlockUpdateReason.FAST_BREAKING);
-                    // Creates an instance of a custom listener class and is ready to call.
-                    Bukkit.getPluginManager().callEvent(event);
-                    if (!event.isCancelled()) { // makes sure the called event hasn't been cancelled
-                        BlockUpdateUtil.updateBlocks(miner, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
-                    }
+                    Tasky.sync(t -> {
+                        Bukkit.getPluginManager().callEvent(event);
+                        if (!event.isCancelled()) {
+                            BlockUpdateUtil.updateBlocks(miner, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
+                        }
+                    });
 
                     try {
                         Thread.sleep(5);
