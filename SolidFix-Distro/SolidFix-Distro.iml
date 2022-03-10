@@ -11,8 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="SolidFix-Plugin" />
     <orderEntry type="module" module-name="SolidFix-API" />
-    <orderEntry type="module" module-name="SolidFix-JDK_8" />
-    <orderEntry type="module" module-name="SolidFix-JDK_14" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.27.0-GA" level="project" />
   </component>
 </module>

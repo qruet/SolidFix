@@ -1,6 +1,0 @@
-name: BlockGlitchFix
-version: 1.9_01-b2
-main: me.qruet.blockglitchfix.BlockGlitchFix
-api-version: 1.13
-description: A lightweight simple block fix to prevent players from being stuck in glitched blocks.
-author: qruet

@@ -4,7 +4,7 @@
 
     <groupId>dev.qruet.solidfix</groupId>
     <artifactId>SolidFix</artifactId>
-    <version>2.1</version>
+    <version>2.2</version>
     <packaging>pom</packaging>
 
     <name>SolidFix</name>
@@ -15,8 +15,6 @@
         <module>SolidFix-Plugin</module>
         <module>SolidFix-Distro</module>
         <module>SolidFix-API</module>
-        <module>SolidFix-JDK_8</module>
-        <module>SolidFix-JDK_14</module>
     </modules>
 
     <profiles>
@@ -26,8 +24,6 @@
                 <module>SolidFix-Plugin</module>
                 <module>SolidFix-Distro</module>
                 <module>SolidFix-API</module>
-                <module>SolidFix-JDK_8</module>
-                <module>SolidFix-JDK_14</module>
             </modules>
         </profile>
     </profiles>

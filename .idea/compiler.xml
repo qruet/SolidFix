@@ -7,8 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SolidFix-API" />
-        <module name="SolidFix-JDK_8" />
-        <module name="SolidFix-JDK_14" />
         <module name="SolidFix-Plugin" />
         <module name="SolidFix-Distro" />
       </profile>
@@ -17,7 +15,7 @@
       <module name="SolidFix" target="1.5" />
       <module name="SolidFix-API" target="8" />
       <module name="SolidFix-Distro" target="1.5" />
-      <module name="SolidFix-JDK_14" target="14" />
+      <module name="SolidFix-JDK_14" target="15" />
       <module name="SolidFix-JDK_8" target="8" />
       <module name="SolidFix-Plugin" target="8" />
     </bytecodeTargetLevel>
