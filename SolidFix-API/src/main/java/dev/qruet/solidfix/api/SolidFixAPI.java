@@ -9,7 +9,6 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import javax.xml.validation.Validator;
 import java.util.Collection;
 
 /**
@@ -58,7 +57,7 @@ public class SolidFixAPI {
         SolidMiner miner = SolidServer.getMiner(player.getUniqueId());
         Validate.notNull(miner, "Failed to retrieve SolidMiner instance for player, " + player.getName() + "!");
         try {
-            BlockUpdateUtil.updateBlocks(miner, radius);
+            BlockUpdateUtil.updateBlocksAsync(miner, radius);
         } catch (Exception e) {
             if (debug) {
                 e.printStackTrace();

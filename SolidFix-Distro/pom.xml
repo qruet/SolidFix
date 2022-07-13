@@ -7,7 +7,7 @@
     <parent>
         <artifactId>SolidFix</artifactId>
         <groupId>dev.qruet.solidfix</groupId>
-        <version>2.2</version>
+        <version>2.3</version>
     </parent>
 
     <artifactId>SolidFix-Distro</artifactId>
@@ -21,7 +21,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <outputDirectory>C:/Users/araus/Desktop</outputDirectory>
+                    <outputDirectory>${BUILD_PATH}</outputDirectory>
                 </configuration>
             </plugin>
             <plugin>

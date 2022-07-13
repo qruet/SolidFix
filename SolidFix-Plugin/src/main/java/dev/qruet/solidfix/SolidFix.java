@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 /**
  * Responsible for initializing the numerous parts of the plugin
@@ -18,9 +19,12 @@ import java.io.File;
 public class SolidFix extends JavaPlugin {
 
     private static CoreManager CORE_MANAGER;
+    private static Logger LOGGER;
 
     public void onEnable() {
         Tasky.setPlugin(this);
+
+        LOGGER = getLogger();
 
         String pckg = getServer().getClass().getName();
         String version = pckg.substring(pckg.indexOf("v") + 1, pckg.indexOf("_R")).replace("_", ".");
@@ -58,11 +62,15 @@ public class SolidFix extends JavaPlugin {
     public void onDisable() {
         try {
             SolidServer.disable();
-            if(CORE_MANAGER != null)
+            if (CORE_MANAGER != null)
                 CORE_MANAGER.disable();
         } catch (UnsupportedOperationException e) {
         }
         HandlerList.unregisterAll(this);
         getLogger().info("SolidFix has been successfully disabled!");
+    }
+
+    public static Logger logger() {
+        return LOGGER;
     }
 }

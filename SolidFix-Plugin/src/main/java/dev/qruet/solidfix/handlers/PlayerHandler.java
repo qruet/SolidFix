@@ -12,11 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
@@ -59,7 +57,7 @@ public class PlayerHandler implements Listener {
         BlockUpdateEvent event = new BlockUpdateEvent(player, BlockUpdateEvent.BlockUpdateReason.SAFETY_UPDATE);
         Bukkit.getPluginManager().callEvent(event); // Calls custom BlockUpdate event
         if (!event.isCancelled()) {
-            BlockUpdateUtil.updateBlocks(miner, 2); // Updates a small "safe" radius of 2 blocks
+            BlockUpdateUtil.updateBlocksAsync(miner, 2); // Updates a small "safe" radius of 2 blocks
         }
     }
 

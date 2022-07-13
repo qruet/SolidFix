@@ -98,7 +98,7 @@ public class BlockUpdateManager extends SolidManager {
                     Tasky.sync(t -> {
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
-                            BlockUpdateUtil.updateBlocks(miner, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
+                            BlockUpdateUtil.updateBlocksAsync(miner, miner.getRecentBrokenBlock().getLocation(), ConfigData.RADIUS.getInt()); // updates blocks
                         }
                     });
 

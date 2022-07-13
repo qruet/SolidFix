@@ -6,9 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SolidFix-Distro" />
         <module name="SolidFix-API" />
         <module name="SolidFix-Plugin" />
-        <module name="SolidFix-Distro" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

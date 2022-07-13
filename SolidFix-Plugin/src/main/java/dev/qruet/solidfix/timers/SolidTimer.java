@@ -44,7 +44,7 @@ public class SolidTimer {
          */
         public void run() {
             while (!cancelled) {
-                SolidServer.getOnlinePlayers().forEach(SolidMiner::t);
+                SolidServer.getOnlinePlayers().forEach(SolidMiner::tick);
                 try {
                     long delay = (long) (base_tick * Math.pow((20.0 / ServerUtil.getTPS()), 5)); //calculate next delay based on server's current tick
                     Thread.sleep(delay);

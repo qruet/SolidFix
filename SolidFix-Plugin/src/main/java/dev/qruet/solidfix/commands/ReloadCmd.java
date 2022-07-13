@@ -13,8 +13,9 @@ import java.util.LinkedList;
 
 /**
  * Command responsible for reloading the plugin's config
+ *
  * @author qruet
- * @version 1.9_01
+ * @version 2.0
  */
 public class ReloadCmd implements CommandExecutor {
 
@@ -24,19 +25,19 @@ public class ReloadCmd implements CommandExecutor {
             Player player = (Player) sender;
             if (!player.hasPermission("solidfix.admin.reload"))
                 return false;
-
-            long start = System.currentTimeMillis();
-            LinkedList<Object> o_data = new LinkedList<>();
-            Arrays.stream(ConfigData.values()).forEach(d -> o_data.add(d.get()));
-            ConfigDeserializer.reload();
-            ConfigData[] n_data = ConfigData.values();
-            long end = System.currentTimeMillis();
-            for (int i = 0; i < n_data.length; i++) {
-                sender.sendMessage(T.C(" &e* &6updated " + n_data[i].getPath() + " &c&o") +
-                        o_data.get(i) + " -> " + n_data[i].get());
-            }
-            player.sendMessage(T.C("&aSuccessfully reloaded configuration in " + (end-start) + "ms!"));
         }
-        return false;
+
+        long start = System.currentTimeMillis();
+        LinkedList<Object> o_data = new LinkedList<>();
+        Arrays.stream(ConfigData.values()).forEach(d -> o_data.add(d.get()));
+        ConfigDeserializer.reload();
+        ConfigData[] n_data = ConfigData.values();
+        long end = System.currentTimeMillis();
+        for (int i = 0; i < n_data.length; i++) {
+            sender.sendMessage(T.C(" &e* &6updated " + n_data[i].getPath() + " &c&o") +
+                    o_data.get(i) + " -> " + n_data[i].get());
+        }
+        sender.sendMessage(T.C("&aSuccessfully reloaded configuration in " + (end - start) + "ms!"));
+        return true;
     }
 }
